@@ -28,7 +28,7 @@ export class AuthService {
   async login(user: Auth) {
     const payload = { sub: user.IdTaiKhoan, username: user.Username, role: user.nhanvien.ChucVu };
     return {
-      access_token: jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' }),
+      access_token: jwt.sign(payload, process.env.JWT_SECRET!),
     };
   }
 

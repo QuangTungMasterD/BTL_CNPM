@@ -14,8 +14,12 @@ export class HoadonsController {
   }
 
   @Get()
-  findHoaDonByMonth(@Query('month') month: number = 1, @Query('page') page: number = 1) {
-    return this.hoadonsService.findHoaDonByMonth(month, page);
+  findHoaDonByMonth(@Query('month') month: number, @Query('page') page: number) {
+    if(page || month) {
+      return this.hoadonsService.findHoaDonByMonth(month, page);
+    } else {
+      return this.findAll();
+    }
   }
 
   @Get()

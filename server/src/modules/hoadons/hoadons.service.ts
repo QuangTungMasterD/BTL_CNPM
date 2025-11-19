@@ -19,7 +19,7 @@ export class HoadonsService {
     return total;
   }
 
-  async findHoaDonByMonth(month: number, page: number = 1, quantity: number = 50) {
+  async findHoaDonByMonth(month: number = 1, page: number = 1, quantity: number = 50) {
     const now = new Date();
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - (month - 1));
@@ -55,7 +55,7 @@ export class HoadonsService {
   }
 
   findAll() {
-    return `This action returns all hoadons`;
+    return this.hoaDonRepo.find({ relations: ['chitiethoadons'] });
   }
 
   findOne(id: number) {
