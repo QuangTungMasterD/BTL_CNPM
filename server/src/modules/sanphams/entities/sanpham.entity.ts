@@ -1,3 +1,4 @@
+import { Chitiethoadon } from "src/modules/chitiethoadons/entities/chitiethoadon.entity";
 import { Danhgia } from "src/modules/danhgias/entities/danhgia.entity";
 import { Hang } from "src/modules/hangs/entities/hang.entity";
 import { KhuyenMai } from "src/modules/khuyenmais/entities/khuyenmai.entity";
@@ -27,27 +28,28 @@ export class Sanpham {
   BaoHanh: number;
 
   @Column({ nullable: true })
-  IdHang: number
+  IdHang: number | null;
 
   @Column({ nullable: true })
-  IdLoai: number
+  IdLoai: number | null;
 
   @OneToMany(() => Danhgia, (danhgia) => danhgia.sanpham)
-  @JoinColumn({ name: 'IdSanPham' })
   danhgias: Danhgia[]
 
   @OneToMany(() => Thongsokythuat, (tskt) => tskt.sanpham, { cascade: true })
-  @JoinColumn({ name: 'IdSanPham' })
   thongsokythuats: Thongsokythuat[]
 
   @OneToMany(() => KhuyenMai, (km) => km.sanpham, { cascade: true })
   khuyenmais: KhuyenMai[]
 
-  @ManyToOne(() => Loai, (lo) => lo.sanphams)
+  @ManyToOne(() => Loai, (lo) => lo.sanphams, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'IdLoai' })
   loai: Loai
   
-  @ManyToOne(() => Hang, (ha) => ha.sanphams)
+  @ManyToOne(() => Hang, (ha) => ha.sanphams, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'IdHang' })
   hang: Hang
+
+  @OneToMany(() => Chitiethoadon, (cthd) => cthd.sanpham)
+  chitiethoadons: Chitiethoadon;
 }

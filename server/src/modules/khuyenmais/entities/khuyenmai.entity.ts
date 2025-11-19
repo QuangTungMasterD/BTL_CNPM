@@ -1,5 +1,5 @@
 import { Sanpham } from "src/modules/sanphams/entities/sanpham.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('khuyenmais')
 export class KhuyenMai {
@@ -9,8 +9,8 @@ export class KhuyenMai {
   @Column()
   IdSanPham: number;
 
-  @Column()
-  TenKM: number;
+  @Column({ nullable: true })
+  TenKM: string;
 
   @Column()
   MucGiam: number;
@@ -22,5 +22,6 @@ export class KhuyenMai {
   NgayKT: Date;
 
   @ManyToOne(() => Sanpham, (sp) => sp.khuyenmais, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'IdSanPham' })
   sanpham: Sanpham
 }

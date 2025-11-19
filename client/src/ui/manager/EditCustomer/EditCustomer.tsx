@@ -61,7 +61,7 @@ function EditCustomer({
 
     const res = await fetch(`${process.env.API}/khachhangs/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem('token')}` },
       body: JSON.stringify(form),
     });
 

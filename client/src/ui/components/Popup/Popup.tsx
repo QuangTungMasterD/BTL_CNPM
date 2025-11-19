@@ -25,7 +25,7 @@ function Popup({
       className={clsx(
         !state && 'hidden',
         state && 'flex',
-        "fixed justify-center top-0 left-0 w-[100vw] h-[100vh] overflow-y-auto bg-[rgba(100,100,100,0.3)] z-100 pb-20",
+        "fixed justify-center top-0 left-0 w-[100vw] h-[100vh] overflow-y-auto bg-[rgba(100,100,100,0.3)] z-101 pb-20",
       )}
     >
       <div className="pb-10">

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { KhuyenmaisService } from './khuyenmais.service';
 import { CreateKhuyenmaiDto } from './dto/create-khuyenmai.dto';
 import { UpdateKhuyenmaiDto } from './dto/update-khuyenmai.dto';
+import { JwtAuthGuard } from 'src/Guard/jwt-auth.guard';
 
 @Controller('khuyenmais')
 export class KhuyenmaisController {
@@ -10,6 +11,11 @@ export class KhuyenmaisController {
   @Post()
   create(@Body() createKhuyenmaiDto: CreateKhuyenmaiDto) {
     return this.khuyenmaisService.create(createKhuyenmaiDto);
+  }
+
+  @Get()
+  findKhuyenMai(@Query('page') page: number = 1) {
+    return this.khuyenmaisService.findKhuyenMai(+page)
   }
 
   @Get()
@@ -23,11 +29,13 @@ export class KhuyenmaisController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateKhuyenmaiDto: UpdateKhuyenmaiDto) {
     return this.khuyenmaisService.update(+id, updateKhuyenmaiDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.khuyenmaisService.remove(+id);
   }

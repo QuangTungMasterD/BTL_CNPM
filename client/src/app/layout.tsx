@@ -4,8 +4,8 @@ import "./globals.css";
 import Header from "@/ui/layouts/Header";
 import Popup from "@/ui/components/Popup";
 import Toploader from "@/ui/components/Toploader/Toploader";
-import { Bounce, toast, ToastContainer } from "react-toastify";
 import { ToastProvider } from "@/contexts/ToastProvider";
+import { AuthProvider } from "@/contexts/authProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,14 +35,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ToastProvider>
-          <Toploader />
-          <Header />
-          <Popup>Cho anh trai C2</Popup>
-          <div className="mt-[var(--height-header)] w-[1580px] mx-auto">
-            {children}
-          </div>
-        </ToastProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <Toploader />
+            <Header />
+            <Popup>Cho anh trai C2</Popup>
+            <div className="mt-[var(--height-header)] w-[1580px] mx-auto">
+              {children}
+            </div>
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   );

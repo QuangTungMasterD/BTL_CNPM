@@ -7,7 +7,6 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 export const ToastContext = createContext('');
 
 export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const value = {
     toast
   }
@@ -16,7 +15,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
     <ToastContext.Provider value={value}>
       {children}
       <ToastContainer
-        position="top-right"
+        position="top-center"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -24,7 +23,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
+        pauseOnHover={false}
         theme="light"
         transition={Bounce}
       />

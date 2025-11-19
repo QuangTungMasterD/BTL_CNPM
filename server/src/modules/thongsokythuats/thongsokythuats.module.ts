@@ -8,5 +8,6 @@ import { Thongsokythuat } from './entities/thongsokythuat.entity';
   imports: [TypeOrmModule.forFeature([Thongsokythuat])],
   controllers: [ThongsokythuatsController],
   providers: [ThongsokythuatsService],
+  exports: [ThongsokythuatsService]
 })
 export class ThongsokythuatsModule {}

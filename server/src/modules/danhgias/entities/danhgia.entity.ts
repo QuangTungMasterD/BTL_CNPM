@@ -12,13 +12,16 @@ export class Danhgia {
   SoSao: number;
 
   @Column()
+  IdSanPham: number;
+
+  @Column()
   Content: string;
 
   @Column()
   CreateAt: Date;
 
   @ManyToOne(() => Khachhang, (kh) => kh.danhgias, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'IdSKhachHang' })
+  @JoinColumn({ name: 'IdKhachHang' })
   khachhang: Khachhang
 
   @ManyToOne(() => Sanpham, (sp) => sp.danhgias, { onDelete: 'CASCADE' })

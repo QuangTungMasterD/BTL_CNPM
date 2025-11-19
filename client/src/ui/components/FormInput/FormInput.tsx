@@ -12,7 +12,7 @@ function FormInput({
   label?: string;
   name: string;
   id: string;
-  type?: "text" | "password" | "email" | "hidden";
+  type?: "text" | "password" | "email" | "hidden" | "number";
   require: boolean;
   place: string;
   message?: string;

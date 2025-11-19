@@ -8,7 +8,11 @@ import { useEffect, useState } from "react";
 
 function Dashboard() {
 
-  const [cardTotals, setCardTotal] = useState([{}]);
+  const [cardTotals, setCardTotal] = useState([{
+        icon: <FontAwesomeIcon icon={faUser} />,
+        name: '',
+        total: 0
+      },]);
 
   useEffect(() => {
   async function fetchData() {
@@ -18,6 +22,8 @@ function Dashboard() {
       fetch(`${process.env.API}/sanphams/total`).then(res => res.json()),
       fetch(`${process.env.API}/danhgias/danhgia-cuahang`).then(res => res.json())
     ]);
+
+    console.log(danhgia)
 
     setCardTotal([
       {

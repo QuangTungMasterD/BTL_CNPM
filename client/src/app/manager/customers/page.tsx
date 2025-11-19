@@ -2,6 +2,7 @@
 
 import Button from "@/ui/components/Button";
 import ConfirmDelete from "@/ui/components/ConfirmDelete";
+import Pagination from "@/ui/components/Pagination";
 import Popup from "@/ui/components/Popup";
 import AddCustomer from "@/ui/manager/AddCustomer";
 import EditCustomer from "@/ui/manager/EditCustomer";
@@ -17,7 +18,7 @@ function Customer() {
   const [stateShowPopupDelete, setStateShowPopupDelete] = useState(false);
   const [stateShowPopupAdd, setStateShowPopupAdd] = useState(false);
   const [stateShowPopupEdit, setStateShowPopupEdit] = useState(false);
-  const [khachHangs, setKhachHangs] = useState({data: [{ IdKhachHang: '', Ten: '', SDT: '', Email: '' }], page: 0, total: 0, totalPage: 0});
+  const [khachHangs, setKhachHangs] = useState({data: [{ IdKhachHang: '', Ten: '', SDT: '', Email: '' }], page: 0, total: 0, totalPages: 0});
 
   useEffect(() => {
     const pageFromQuery = query.get("page");
@@ -41,8 +42,9 @@ function Customer() {
 
   return (
     <div className="p-4 bg-white rounded-b-xl">
-      <div className="mb-3">
+      <div className="mb-3 flex">
         <Button onClick={() => setStateShowPopupAdd(true)}><FontAwesomeIcon icon={faPlus}/> Khách hàng</Button>
+        <Pagination totalPage={khachHangs.totalPages} curPage={page} setPage={setPage} />
       </div>
       {stateShowPopupDelete && <Popup state={stateShowPopupDelete} setState={setStateShowPopupDelete}>
         <ConfirmDelete api="khachhangs" onDeleteSuccess={getDataKhachHang} content="Xác nhận xóa người dùng này" id={idUser} setStateShow={setStateShowPopupDelete} />

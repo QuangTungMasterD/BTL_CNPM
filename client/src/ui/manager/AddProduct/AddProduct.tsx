@@ -57,7 +57,7 @@ function AddProduct({
 
     const res = await fetch(`${process.env.API}/sanphams`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem('token')}` },
       body: JSON.stringify(form),
     });
 

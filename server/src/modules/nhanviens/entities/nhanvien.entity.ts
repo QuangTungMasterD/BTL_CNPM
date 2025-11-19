@@ -29,7 +29,10 @@ export class Nhanvien {
   @Column()
   Luong: number
 
-  @OneToOne(() => Taikhoan, (taiKhoan) => taiKhoan.nhanvien)
+  @Column()
+  IdTaiKhoan: number;
+
+  @OneToOne(() => Taikhoan, (taiKhoan) => taiKhoan.nhanvien, { cascade: true })
   @JoinColumn({ name: 'IdTaiKhoan' })
   taikhoan: Taikhoan
 }

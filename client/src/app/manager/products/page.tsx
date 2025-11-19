@@ -1,8 +1,11 @@
 "use client";
 
 import Button from "@/ui/components/Button";
+import ConfirmDelete from "@/ui/components/ConfirmDelete";
+import Pagination from "@/ui/components/Pagination";
 import Popup from "@/ui/components/Popup";
 import AddProduct from "@/ui/manager/AddProduct/AddProduct";
+import EditProduct from "@/ui/manager/EditProduct";
 import { faCircleInfo, faPenToSquare, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSearchParams } from "next/navigation";
@@ -11,7 +14,7 @@ import { useEffect, useState } from "react";
 function Products() {
   const query = useSearchParams();
   const [page, setPage] = useState(1);
-  const [sanPhams, setSanPhams] = useState({data: [{ IdSanPham: 0, Ten: '', SoLuong: '', BaoHanh: '', Gia: '', MoTa: '' }], page: 0, total: 0, totalPage: 0});
+  const [sanPhams, setSanPhams] = useState({data: [{ IdSanPham: 0, Ten: '', SoLuong: '', BaoHanh: '', Gia: '', MoTa: '' }], page: 0, total: 0, totalPages: 0});
   const [idSanPham, setIdSanPham] = useState(-1);
   const [stateShowPopupDelete, setStateShowPopupDelete] = useState(false);
   const [stateShowPopupAdd, setStateShowPopupAdd] = useState(false);
@@ -40,19 +43,20 @@ function Products() {
   return (
     <div className="p-4 bg-white rounded-b-xl">
 
-      <div className="mb-3">
+      <div className="mb-3 flex">
         <Button onClick={() => setStateShowPopupAdd(true)}><FontAwesomeIcon icon={faPlus}/> Sản phẩm</Button>
+        <Pagination totalPage={sanPhams.totalPages} curPage={page} setPage={setPage} />
       </div>
-      {/* {stateShowPopupDelete && <Popup state={stateShowPopupDelete} setState={setStateShowPopupDelete}>
-        <ConfirmDelete api="khachhangs" onDeleteSuccess={getDataSanPham} content="Xác nhận xóa người dùng này" id={idSanPham} setStateShow={setStateShowPopupDelete} />
-      </Popup>} */}
+      {stateShowPopupDelete && <Popup state={stateShowPopupDelete} setState={setStateShowPopupDelete}>
+        <ConfirmDelete api="sanphams" onDeleteSuccess={getDataSanPham} content="Xác nhận xóa sản phẩm này" id={idSanPham} setStateShow={setStateShowPopupDelete} />
+      </Popup>}
       {stateShowPopupAdd && <Popup state={stateShowPopupAdd} setState={setStateShowPopupAdd}>
         <AddProduct onSuccess={getDataSanPham} setStateShow={setStateShowPopupAdd} />
       </Popup>}
 
-      {/* {stateShowPopupEdit && <Popup state={stateShowPopupEdit} setState={setStateShowPopupEdit}>
-        <EditCustomer id={idSanPham} onSuccess={getDataSanPham} setStateShow={setStateShowPopupEdit} />
-      </Popup>} */}
+      {stateShowPopupEdit && <Popup state={stateShowPopupEdit} setState={setStateShowPopupEdit}>
+        <EditProduct id={idSanPham} onSuccess={getDataSanPham} setStateShow={setStateShowPopupEdit} />
+      </Popup>}
 
       <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-xl border border-gray-300">
         <table className="w-full text-sm text-left rtl:text-right text-body">

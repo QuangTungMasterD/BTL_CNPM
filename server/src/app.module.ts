@@ -13,6 +13,9 @@ import { ThongsokythuatsModule } from './modules/thongsokythuats/thongsokythuats
 import { KhuyenmaisModule } from './modules/khuyenmais/khuyenmais.module';
 import { LoaisModule } from './modules/loais/loais.module';
 import { HangsModule } from './modules/hangs/hangs.module';
+import { HoadonsModule } from './modules/hoadons/hoadons.module';
+import { ChitiethoadonsModule } from './modules/chitiethoadons/chitiethoadons.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -41,6 +44,9 @@ import { HangsModule } from './modules/hangs/hangs.module';
       KhuyenmaisModule,
       LoaisModule,
       HangsModule,
+      HoadonsModule,
+      ChitiethoadonsModule,
+      AuthModule,
       ],
   controllers: [AppController],
   providers: [AppService],

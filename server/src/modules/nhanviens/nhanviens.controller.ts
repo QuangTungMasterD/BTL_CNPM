@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { NhanviensService } from './nhanviens.service';
 import { CreateNhanvienDto } from './dto/create-nhanvien.dto';
 import { UpdateNhanvienDto } from './dto/update-nhanvien.dto';
+import { JwtAuthGuard } from 'src/Guard/jwt-auth.guard';
 
 @Controller('nhanviens')
 export class NhanviensController {
@@ -16,6 +17,11 @@ export class NhanviensController {
   findTotalNhanVien() {
     return this.nhanviensService.findTotalNhanVien();
   }
+  
+  @Get()
+  findNhanVien(@Query('page') page: number = 1) {
+    return this.nhanviensService.findNhanVien(page);
+  }
 
   @Get()
   findAll() {
@@ -28,11 +34,13 @@ export class NhanviensController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateNhanvienDto: UpdateNhanvienDto) {
     return this.nhanviensService.update(+id, updateNhanvienDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.nhanviensService.remove(+id);
   }

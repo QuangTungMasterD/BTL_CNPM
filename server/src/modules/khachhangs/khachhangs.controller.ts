@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { KhachhangsService } from './khachhangs.service';
 import { UpdateKhachhangDto } from './dto/update-khachhang.dto';
 import { CreateKhachhangDtoHasTK } from './dto/create.dto';
+import { JwtAuthGuard } from 'src/Guard/jwt-auth.guard';
 
 @Controller('khachhangs')
 export class KhachhangsController {
@@ -33,11 +34,13 @@ export class KhachhangsController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateKhachhangDto: UpdateKhachhangDto) {
     return this.khachhangsService.update(+id, updateKhachhangDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.khachhangsService.remove(+id);
   }

@@ -29,15 +29,18 @@ export class KhachhangsService {
       errors['SDT'] = "Số điện thoại đã tồn tại."
     }
 
-    const result = await this.taiKhoanService.create({
-      Username: CreateKhachhangDto.Username,
-      MatKhau: CreateKhachhangDto.MatKhau,
-      IdVaiTro: CreateKhachhangDto.IdVaiTro
-    });
-
-    if(!result.state) {
-      errors = { ...errors, ...result.messages };
+    if(Object.keys(errors).length <= 0) {
+      const result = await this.taiKhoanService.create({
+        Username: CreateKhachhangDto.Username,
+        MatKhau: CreateKhachhangDto.MatKhau,
+        IdVaiTro: CreateKhachhangDto.IdVaiTro
+      });
+      
+      if(!result.state) {
+        errors = { ...errors, ...result.messages };
+      }
     }
+
 
     if(Object.keys(errors).length <= 0) {
       const taikhoan = await this.taiKhoanService.findOneByUsername(CreateKhachhangDto.Username);
@@ -132,16 +135,16 @@ export class KhachhangsService {
   async remove(id: number) {
     const kh = await this.findOne(id);
     
-    let isSuccess = false;
-    let message = 'Xóa người dùng thất bại';
+    let state = false;
+    let notify = 'Xóa người dùng thất bại';
     if(kh) {
       const result = await this.khachHangRepo.delete(id);
       const deleteTK = await this.taiKhoanService.remove(kh.taikhoan.IdTaiKhoan);
-      isSuccess = (result.affected ?? 0) > 0 && (deleteTK.affected ?? 0) > 0;
-      message = isSuccess ? 'Xóa người dùng thành công' : 'Xóa người dùng thất bại';
+      state = (result.affected ?? 0) > 0 && (deleteTK.affected ?? 0) > 0;
+      notify = state ? 'Xóa người dùng thành công' : 'Xóa người dùng thất bại';
     }
     return {
-      isSuccess, message
+      state, notify
     }
   }
 }

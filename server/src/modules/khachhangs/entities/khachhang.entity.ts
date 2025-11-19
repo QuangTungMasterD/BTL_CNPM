@@ -1,4 +1,5 @@
 import { Danhgia } from "src/modules/danhgias/entities/danhgia.entity";
+import { Hoadon } from "src/modules/hoadons/entities/hoadon.entity";
 import { Taikhoan } from "src/modules/taikhoans/entities/taikhoan.entity";
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -26,4 +27,7 @@ export class Khachhang {
   @OneToMany(() => Danhgia, (danhgia) => danhgia.khachhang, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'IdKhachHang' })
   danhgias: Danhgia[]
+
+  @OneToMany(() => Hoadon, (hd) => hd.khachhang, { cascade: true })
+  hoadons: Hoadon[]
 }

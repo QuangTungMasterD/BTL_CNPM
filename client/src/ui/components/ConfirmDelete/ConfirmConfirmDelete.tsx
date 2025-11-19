@@ -23,15 +23,18 @@ function ConfirmDelete({
   const handleDelete = () => {
     fetch(`${process.env.API}/${api}/${id}`, {
       method: "DELETE",
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.isSuccess) {
-          toast.success(data.message);
+        if (data.state) {
+          toast.success(data.notify);
           setStateShow(false);
           onDeleteSuccess?.();
         } else {
-          toast.error(data.message);
+          toast.error(data.notify);
         }
       });
   };

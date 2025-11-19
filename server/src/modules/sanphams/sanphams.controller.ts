@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { SanphamsService } from './sanphams.service';
 import { CreateSanphamDto } from './dto/create-sanpham.dto';
 import { UpdateSanphamDto } from './dto/update-sanpham.dto';
+import { JwtAuthGuard } from 'src/Guard/jwt-auth.guard';
 
 @Controller('sanphams')
 export class SanphamsController {
@@ -18,9 +19,12 @@ export class SanphamsController {
   }
 
   @Get()
-  findSanPham(@Query('page') page: number = 1) {
-    return this.sanphamsService.findSanPham(+page);
-  }    
+  findSanPham(@Query('page') page: number) {
+    if (page) {
+      return this.sanphamsService.findSanPham(+page);
+    }
+    return this.sanphamsService.findAll();
+  }
 
   @Get()
   findAll() {
@@ -33,11 +37,13 @@ export class SanphamsController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateSanphamDto: UpdateSanphamDto) {
     return this.sanphamsService.update(+id, updateSanphamDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.sanphamsService.remove(+id);
   }

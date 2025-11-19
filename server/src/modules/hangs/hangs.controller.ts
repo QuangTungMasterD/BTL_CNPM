@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { HangsService } from './hangs.service';
 import { CreateHangDto } from './dto/create-hang.dto';
 import { UpdateHangDto } from './dto/update-hang.dto';
+import { JwtAuthGuard } from 'src/Guard/jwt-auth.guard';
 
 @Controller('hangs')
 export class HangsController {
@@ -23,11 +24,13 @@ export class HangsController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateHangDto: UpdateHangDto) {
     return this.hangsService.update(+id, updateHangDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.hangsService.remove(+id);
   }
