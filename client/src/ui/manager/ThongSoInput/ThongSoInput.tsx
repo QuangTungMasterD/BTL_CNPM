@@ -46,7 +46,7 @@ export default function ThongSoInput({ thongSoList, setThongSoList, idSanPham }:
       if(data.state) toast.success(data.notify);
     });
   }
-
+  
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">

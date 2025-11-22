@@ -1,4 +1,7 @@
-
-export const getToken = () => localStorage.getItem('token');
+'use client'
+export const getToken = () => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('token');
+};
 
 export const isAuthenticated = () => !!getToken();

@@ -21,8 +21,9 @@ function FormInput({
 }) {
   return (
     <div className="flex flex-col w-[400px] nth-[n+2]:mt-4">
-      <label htmlFor={id} className="text-gray-600">
+      <label htmlFor={id} className="text-gray-600 inline-flex">
         {label}
+        <p className="text-red-600 inline-flex ml-1">{require && '*'}</p>
       </label>
       <input
         type={type}

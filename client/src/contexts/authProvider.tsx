@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, useContext, ReactNode } from "react";
+import { createContext, useState, useContext, ReactNode, useEffect } from "react";
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -12,9 +12,13 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-    return !!localStorage.getItem("token");
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const hasToken = typeof window !== "undefined" && !!localStorage.getItem("token");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoggedIn(hasToken);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>

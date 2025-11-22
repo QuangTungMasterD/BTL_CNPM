@@ -48,6 +48,15 @@ function Revenue() {
   const [page, setPage] = useState(1);
   const [hoaDons, setHoaDons] = useState<HoaDonResponse>();
   const [month, setMonth] = useState(1);
+  // const [token, setToken] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     // eslint-disable-next-line react-hooks/set-state-in-effect
+  //     setToken(localStorage.getItem("token"));
+  //   }
+  // }, []);
+
 
   useEffect(() => {
     const pageFromQuery = query.get("page");

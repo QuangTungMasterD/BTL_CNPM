@@ -8,6 +8,7 @@ import AddProduct from "@/ui/manager/AddProduct/AddProduct";
 import EditProduct from "@/ui/manager/EditProduct";
 import { faCircleInfo, faPenToSquare, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -101,7 +102,7 @@ function Products() {
                     <td className="px-6 py-4">{items.SoLuong}</td>
                     <td className="px-6 py-4">{items.BaoHanh}</td>
                     <td className="px-6 py-4 text-right">
-                      <a
+                      <Link
                         href={`products/${items.IdSanPham}`}
                         className="text-[16px] text-blue-600 hover:underline"
                       >
@@ -109,7 +110,7 @@ function Products() {
                           className="text-[16px]"
                           icon={faCircleInfo}
                         />
-                      </a>
+                      </Link>
                       <button
                         onClick={() => {
                           setIdSanPham(items.IdSanPham);
