@@ -3,7 +3,7 @@ import { CreateSanphamDto } from './dto/create-sanpham.dto';
 import { UpdateSanphamDto } from './dto/update-sanpham.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Sanpham } from './entities/sanpham.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { ThongsokythuatsService } from '../thongsokythuats/thongsokythuats.service';
 import { KhuyenmaisService } from '../khuyenmais/khuyenmais.service';
 
@@ -41,9 +41,19 @@ export class SanphamsService {
     return { state: false, messages: errors }
   }
 
-  async findSanPham(page: number, quantity: number = 50) {
+  async findSanPham(page: number, search: string, quantity: number = 50) {
+    const searchs = search?.trim();
+
+    const where = searchs ? [
+        { Ten: Like(`%${searchs}%`) },
+        { Gia: Like(`%${searchs}%`) },
+        { BaoHanh: Like(`%${searchs}%`) },
+        { SoLuong: Like(`%${searchs}%`) },
+      ]
+    : {};
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [results, total] = await this.sanPhamRepo.findAndCount({
+      where,
       take: quantity,
       skip: (page - 1) * quantity
     });

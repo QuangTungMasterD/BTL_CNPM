@@ -2,6 +2,7 @@
 
 import Button from "@/ui/components/Button";
 import ConfirmDelete from "@/ui/components/ConfirmDelete";
+import InputSearch from "@/ui/components/InputSearch";
 import Pagination from "@/ui/components/Pagination";
 import Popup from "@/ui/components/Popup";
 import AddCustomer from "@/ui/manager/AddCustomer";
@@ -19,6 +20,7 @@ function Customer() {
   const [stateShowPopupAdd, setStateShowPopupAdd] = useState(false);
   const [stateShowPopupEdit, setStateShowPopupEdit] = useState(false);
   const [khachHangs, setKhachHangs] = useState({data: [{ IdKhachHang: '', Ten: '', SDT: '', Email: '' }], page: 0, total: 0, totalPages: 0});
+  const [valueSearch, setValueSearch] = useState('');
 
   useEffect(() => {
     const pageFromQuery = query.get("page");
@@ -29,12 +31,20 @@ function Customer() {
   }, [query]);
 
   const getDataKhachHang = () => {
-    fetch(`${process.env.API}/khachhangs?page=${page}`)
+    fetch(`${process.env.API}/khachhangs?page=${page}&s=${valueSearch}`)
       .then((res) => res.json())
       .then((data) => {
         setKhachHangs(data);
       });
   }
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      getDataKhachHang();
+    }, 1000);
+
+    return () => clearTimeout(delay);
+  }, [valueSearch]);
 
   useEffect(() => {
     getDataKhachHang();
@@ -45,6 +55,7 @@ function Customer() {
       <div className="mb-3 flex">
         <Button onClick={() => setStateShowPopupAdd(true)}><FontAwesomeIcon icon={faPlus}/> Khách hàng</Button>
         <Pagination totalPage={khachHangs.totalPages} curPage={page} setPage={setPage} />
+        <InputSearch placeHolder="Tìm kiếm khách hàng..." name='' value={valueSearch} setValue={setValueSearch} />
       </div>
       {stateShowPopupDelete && <Popup state={stateShowPopupDelete} setState={setStateShowPopupDelete}>
         <ConfirmDelete api="khachhangs" onDeleteSuccess={getDataKhachHang} content="Xác nhận xóa người dùng này" id={idUser} setStateShow={setStateShowPopupDelete} />

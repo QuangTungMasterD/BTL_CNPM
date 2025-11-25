@@ -19,9 +19,9 @@ export class SanphamsController {
   }
 
   @Get()
-  findSanPham(@Query('page') page: number) {
+  findSanPham(@Query('page') page: number, @Query('s') search: string) {
     if (page) {
-      return this.sanphamsService.findSanPham(+page);
+      return this.sanphamsService.findSanPham(+page, search);
     }
     return this.sanphamsService.findAll();
   }

@@ -2,6 +2,7 @@
 
 import Button from "@/ui/components/Button";
 import ConfirmDelete from "@/ui/components/ConfirmDelete";
+import InputSearch from "@/ui/components/InputSearch";
 import Pagination from "@/ui/components/Pagination";
 import Popup from "@/ui/components/Popup";
 import AddProduct from "@/ui/manager/AddProduct/AddProduct";
@@ -20,6 +21,7 @@ function Products() {
   const [stateShowPopupDelete, setStateShowPopupDelete] = useState(false);
   const [stateShowPopupAdd, setStateShowPopupAdd] = useState(false);
   const [stateShowPopupEdit, setStateShowPopupEdit] = useState(false);
+  const [valueSearch, setValueSearch] = useState('');
 
   useEffect(() => {
     const pageFromQuery = query.get("page");
@@ -30,12 +32,20 @@ function Products() {
   }, [query]);
 
   const getDataSanPham = () => {
-    fetch(`${process.env.API}/sanphams?page=${page}`)
+    fetch(`${process.env.API}/sanphams?page=${page}&s=${valueSearch}`)
       .then((res) => res.json())
       .then((data) => {
         setSanPhams(data);
       });
   };
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      getDataSanPham();
+    }, 1000);
+
+    return () => clearTimeout(delay);
+  }, [valueSearch]);
 
   useEffect(() => {
     getDataSanPham();
@@ -47,6 +57,7 @@ function Products() {
       <div className="mb-3 flex">
         <Button onClick={() => setStateShowPopupAdd(true)}><FontAwesomeIcon icon={faPlus}/> Sản phẩm</Button>
         <Pagination totalPage={sanPhams.totalPages} curPage={page} setPage={setPage} />
+        <InputSearch placeHolder="Tìm kiếm sản phẩm..." name='' value={valueSearch} setValue={setValueSearch} />
       </div>
       {stateShowPopupDelete && <Popup state={stateShowPopupDelete} setState={setStateShowPopupDelete}>
         <ConfirmDelete api="sanphams" onDeleteSuccess={getDataSanPham} content="Xác nhận xóa sản phẩm này" id={idSanPham} setStateShow={setStateShowPopupDelete} />

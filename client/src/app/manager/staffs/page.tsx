@@ -2,6 +2,7 @@
 
 import Button from "@/ui/components/Button";
 import ConfirmDelete from "@/ui/components/ConfirmDelete";
+import InputSearch from "@/ui/components/InputSearch";
 import Pagination from "@/ui/components/Pagination";
 import Popup from "@/ui/components/Popup";
 import AddStaff from "@/ui/manager/AddStaff";
@@ -21,6 +22,7 @@ function ManagerStaff() {
   const [stateShowPopupAdd, setStateShowPopupAdd] = useState(false);
   const [stateShowPopupEdit, setStateShowPopupEdit] = useState(false);
   const [nhanViens, setNhanViens] = useState({data: [{ IdNhanVien: '', Ten: '', SDT: '', CCCD: '', Luong: 0 }], page: 0, total: 0, totalPages: 0});
+  const [valueSearch, setValueSearch] = useState('');
 
   useEffect(() => {
       const pageFromQuery = query.get("page");
@@ -31,12 +33,20 @@ function ManagerStaff() {
     }, [query]);
   
     const getDataNhanVien = () => {
-      fetch(`${process.env.API}/nhanviens?page=${page}`)
+      fetch(`${process.env.API}/nhanviens?page=${page}&s=${valueSearch}`)
         .then((res) => res.json())
         .then((data) => {
           setNhanViens(data);
         });
     }
+
+    useEffect(() => {
+    const delay = setTimeout(() => {
+      getDataNhanVien();
+    }, 1000);
+
+    return () => clearTimeout(delay);
+  }, [valueSearch]);
   
     useEffect(() => {
       getDataNhanVien();
@@ -47,6 +57,7 @@ function ManagerStaff() {
       <div className="mb-3 flex">
         <Button onClick={() => setStateShowPopupAdd(true)}><FontAwesomeIcon icon={faPlus}/> Nhân viên</Button>
         <Pagination totalPage={nhanViens?.totalPages || 0} curPage={page} setPage={setPage} />
+        <InputSearch placeHolder="Tìm kiếm nhân viên..." name='' value={valueSearch} setValue={setValueSearch} />
       </div>
       {stateShowPopupDelete && <Popup state={stateShowPopupDelete} setState={setStateShowPopupDelete}>
         <ConfirmDelete api="nhanviens" onDeleteSuccess={getDataNhanVien} content="Xác nhận xóa nhân viên này" id={idStaff} setStateShow={setStateShowPopupDelete} />

@@ -19,8 +19,8 @@ export class KhachhangsController {
   }
 
   @Get()
-  findKhachHang(@Query('page') page: number = 1) {
-    return this.khachhangsService.findKhachHang(page);
+  findKhachHang(@Query('page') page: number = 1, @Query('s') search: string) {
+    return this.khachhangsService.findKhachHang(page, search);
   }
 
   @Get()

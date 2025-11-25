@@ -15,9 +15,9 @@ function Pagination({ curPage, totalPage, setPage }: { curPage: number; totalPag
 
   return (
     <div className="flex items-center justify-center">
-      <select name="page" id="" onChange={(e) => onChange(e)} className="py-3 px-3 mx-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100">
+      <select value={curPage} name="page" id="" onChange={(e) => onChange(e)} className="py-3 px-3 mx-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100">
         {pages.map((item, index) => {
-          return <option key={index} value={item} selected={curPage == item}>Trang {item}</option>
+          return <option key={index} value={item}>Trang {item}</option>
         })}
       </select>
     </div>

@@ -52,7 +52,7 @@ function DetailRevenue() {
       <div className="mt-9">
         {hoaDon?.chitiethoadons.map((item, index) => {
           return (
-            <div className="flex text-gray-600 pb-1 justify-between border-b border-gray-300" key={index}>
+            <div className="mt-2 flex text-gray-600 pb-1 justify-between border-b border-gray-300" key={index}>
               <p className="text-lg">{item.sanpham?.Ten}</p>
               <div className="">
                 <p className="">Số lượng: {item.SoLuong}</p>

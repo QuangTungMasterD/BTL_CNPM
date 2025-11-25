@@ -3,7 +3,7 @@ import { CreateKhachhangDto } from './dto/create-khachhang.dto';
 import { UpdateKhachhangDto } from './dto/update-khachhang.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Khachhang } from './entities/khachhang.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { TaikhoansService } from '../taikhoans/taikhoans.service';
 import { Taikhoan } from '../taikhoans/entities/taikhoan.entity';
 
@@ -65,8 +65,18 @@ export class KhachhangsService {
     return await this.khachHangRepo.count();
   }
 
-  async findKhachHang(page: number = 1, quantity: number = 50) {
+  async findKhachHang(page: number = 1, search: string, quantity: number = 50) {
+    const searchs = search?.trim();
+    
+    const where = searchs ? [
+        { Ten: Like(`%${searchs}%`) },
+        { SDT: Like(`%${searchs}%`) },
+        { Email: Like(`%${searchs}%`) },
+      ]
+    : {};
+
     const [results, total] = await this.khachHangRepo.findAndCount({
+      where,
       take: quantity,
       skip: (page - 1) * quantity,
       relations: ['taikhoan']

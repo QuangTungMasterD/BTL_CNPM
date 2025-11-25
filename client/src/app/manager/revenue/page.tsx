@@ -3,6 +3,7 @@
 import Pagination from "@/ui/components/Pagination";
 import { faCircleInfo, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -86,7 +87,7 @@ function Revenue() {
     <div className="p-4 bg-white rounded-b-xl">
       <div className="mb-3 flex">
         <Pagination totalPage={hoaDons?.totalPages || 1} curPage={page} setPage={setPage} />
-        <div className="">
+        <div className="mr-2">
           <select className="border border-[1px] border-gray-300 px-4 py-3 rounded-sm" name="" id="" onChange={(e) => setMonth(Number(e.target.value))}>
             <option className="text-gray-700" value="1">1 tháng</option>
             <option className="text-gray-700" value="2">2 tháng</option>
@@ -136,7 +137,7 @@ function Revenue() {
                     <td className="px-6 py-4">{items.totalValue}đ</td>
                     <td className="px-6 py-4">{new Date(items.NgayMua).toLocaleDateString()}</td>
                     <td className="px-6 py-4 text-right">
-                      <a
+                      <Link
                         href={`revenue/${items.IdHoaDon}`}
                         className="text-[16px] text-blue-600 hover:underline"
                       >
@@ -144,7 +145,7 @@ function Revenue() {
                           className="text-[16px]"
                           icon={faCircleInfo}
                         />
-                      </a>
+                      </Link>
                     </td>
                   </tr>
                 );
@@ -165,7 +166,7 @@ function Revenue() {
                   <td className="px-6 py-4">{items.totalValue}đ</td>
                     <td className="px-6 py-4">{new Date(items.NgayMua).toLocaleDateString()}</td>
                   <td className="px-6 py-4 text-right">
-                    <a
+                    <Link
                       href={`revenue/${items.IdHoaDon}`}
                       className="font-medium text-blue-600 hover:underline"
                     >
@@ -173,7 +174,7 @@ function Revenue() {
                         className="text-[16px]"
                         icon={faCircleInfo}
                       />
-                    </a>
+                    </Link>
                   </td>
                 </tr>
               );

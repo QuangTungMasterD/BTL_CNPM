@@ -3,7 +3,7 @@ import { CreateNhanvienDto } from './dto/create-nhanvien.dto';
 import { UpdateNhanvienDto } from './dto/update-nhanvien.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Nhanvien } from './entities/nhanvien.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { TaikhoansService } from '../taikhoans/taikhoans.service';
 
 @Injectable()
@@ -66,8 +66,19 @@ export class NhanviensService {
     return total;
   }
 
-  async findNhanVien(page: number = 1, quantity: number = 50) {
+  async findNhanVien(page: number = 1, search: string, quantity: number = 50) {
+    const searchs = search?.trim();
+
+    const where = searchs ? [
+        { Ten: Like(`%${searchs}%`) },
+        { SDT: Like(`%${searchs}%`) },
+        { CCCD: Like(`%${searchs}%`) },
+        { Luong: Like(`%${searchs}%`) },
+      ]
+    : {};
+
     const [results, total] = await this.nhanVienRepo.findAndCount({
+      where,
       take: quantity,
       skip: (page - 1) * quantity,
       relations: ['taikhoan']

@@ -2,6 +2,7 @@
 
 import Button from "@/ui/components/Button";
 import ConfirmDelete from "@/ui/components/ConfirmDelete";
+import InputSearch from "@/ui/components/InputSearch";
 import Pagination from "@/ui/components/Pagination";
 import Popup from "@/ui/components/Popup";
 import AddSale from "@/ui/manager/AddSale";
@@ -45,6 +46,7 @@ function Sales() {
   const [stateShowPopupDelete, setStateShowPopupDelete] = useState(false);
   const [stateShowPopupAdd, setStateShowPopupAdd] = useState(false);
   const [stateShowPopupEdit, setStateShowPopupEdit] = useState(false);
+  const [valueSearch, setValueSearch] = useState('');
 
   useEffect(() => {
     const pageFromQuery = query.get("page");
@@ -55,12 +57,20 @@ function Sales() {
   }, [query]);
 
   const getDataKhuyenMai = () => {
-    fetch(`${process.env.API}/khuyenmais?page=${page}`)
+    fetch(`${process.env.API}/khuyenmais?page=${page}&s=${valueSearch}`)
       .then(res => res.json())
       .then(data => {
         setSales(data);
       })
   }
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      getDataKhuyenMai();
+    }, 1000);
+
+    return () => clearTimeout(delay);
+  }, [valueSearch]);
 
   useEffect(() => {
     getDataKhuyenMai();
@@ -71,6 +81,7 @@ function Sales() {
       <div className="mb-3 flex">
         <Button onClick={() => setStateShowPopupAdd(true)}><FontAwesomeIcon icon={faPlus}/> Khuyến mại</Button>
         <Pagination totalPage={sales?.totalPages || 1} curPage={page} setPage={setPage} />
+        <InputSearch placeHolder="Tìm kiếm khuyến mại..." name='' value={valueSearch} setValue={setValueSearch} />
       </div>
 
       {stateShowPopupDelete && <Popup state={stateShowPopupDelete} setState={setStateShowPopupDelete}>

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateKhuyenmaiDto } from './dto/create-khuyenmai.dto';
 import { UpdateKhuyenmaiDto } from './dto/update-khuyenmai.dto';
 import { KhuyenMai } from './entities/khuyenmai.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { SanphamsService } from '../sanphams/sanphams.service';
 
@@ -36,9 +36,26 @@ export class KhuyenmaisService {
     return { state: false, messages: errors }
   }
 
-  async findKhuyenMai(page: number, quantity: number = 50) {
+  async findKhuyenMai(page: number, search: string, quantity: number = 50) {
+    let searchs = search?.trim();
+    // const [month, day, year] = searchs.split("/");
+    // searchs = `${year}-${month}-${day}`;
+
+    const where = searchs ? [
+        { MucGiam: Like(`%${searchs}%`) },
+        { NgayBD: Like(`%${searchs}%`) },
+        { NgayKT: Like(`%${searchs}%`) },
+        { TenKM: Like(`%${searchs}%`) },
+        { sanpham: {
+          Ten: Like(`%${searchs}%`),
+        } },
+        { sanpham: { Gia: Like(`%${searchs}%`) }}
+      ]
+    : {};
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [results, total] = await this.khuyenMaiRepo.findAndCount({
+      where,
       take: quantity,
       skip: (page - 1) * quantity,
       relations: ['sanpham'],

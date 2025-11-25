@@ -3,7 +3,7 @@ import { CreateHoadonDto } from './dto/create-hoadon.dto';
 import { UpdateHoadonDto } from './dto/update-hoadon.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Hoadon } from './entities/hoadon.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class HoadonsService {
@@ -26,10 +26,15 @@ export class HoadonsService {
     startDate.setDate(1);
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
+    // let searchs = search?.trim();
+    // const [months, day, year] = searchs.split("/");
+    // searchs = months && day && year ? `${year}-${months}-${day}` : "";
+    // console.log(searchs)
     const [results, total] = await this.hoaDonRepo
       .createQueryBuilder('hd')
       .leftJoinAndSelect('hd.chitiethoadons', 'ct')
       .leftJoinAndSelect('ct.sanpham', 'sp')
+      .where('hd.state = 2')
       .where('hd.NgayMua BETWEEN :start AND :end', {
         start: startDate,
         end: endDate,

@@ -14,8 +14,8 @@ export class KhuyenmaisController {
   }
 
   @Get()
-  findKhuyenMai(@Query('page') page: number = 1) {
-    return this.khuyenmaisService.findKhuyenMai(+page)
+  findKhuyenMai(@Query('page') page: number = 1, @Query('s') search: string) {
+    return this.khuyenmaisService.findKhuyenMai(+page, search)
   }
 
   @Get()

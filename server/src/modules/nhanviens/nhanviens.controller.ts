@@ -19,8 +19,8 @@ export class NhanviensController {
   }
   
   @Get()
-  findNhanVien(@Query('page') page: number = 1) {
-    return this.nhanviensService.findNhanVien(page);
+  findNhanVien(@Query('page') page: number = 1, @Query('s') search: string) {
+    return this.nhanviensService.findNhanVien(page, search);
   }
 
   @Get()
