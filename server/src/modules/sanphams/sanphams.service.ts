@@ -64,7 +64,7 @@ export class SanphamsService {
       data: results,
       total: totalSanPham,
       page: page,
-      totalPages: Math.ceil(totalSanPham / quantity),
+      totalPages: Math.ceil(total / quantity),
     };
   }
 
@@ -82,8 +82,17 @@ export class SanphamsService {
 
   async update(id: number, updateSanphamDto: UpdateSanphamDto) {
     const sanpham = await this.findOne(id);
-
+    const errors = {};
     const { Ten, SoLuong, MoTa, Gia, BaoHanh, IdHang, IdLoai } = updateSanphamDto;
+
+    if (Ten.trim() == '') errors['Ten'] = "Vui lòng nhập tên sản phẩm";
+    if (+SoLuong < 0) errors['SoLuong'] = "Số lượng không hợp lệ";
+    if (+Gia < 0) errors['Gia'] = "Giá bán không hợp lệ";
+    if (+BaoHanh < 0) errors['BaoHanh'] = "Bảo hành không hợp lệ";
+
+    if(Object.keys(errors).length > 0) {
+      return { state: false, messages: errors }
+    }
 
     if(sanpham) {
       sanpham.Ten = Ten ?? sanpham.Ten;

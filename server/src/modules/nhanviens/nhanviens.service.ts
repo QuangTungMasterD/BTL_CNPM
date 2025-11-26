@@ -146,10 +146,10 @@ export class NhanviensService {
       
       await this.nhanVienRepo.save(nhanvien);
 
-      return { state: true, notify: 'Thêm nhân viên thành công.' }
+      return { state: true, notify: 'Sửa nhân viên thành công.' }
     }
 
-    if(Object.keys(errors).length <= 0) return { state: false, notify: 'Thêm nhân viên thất bại.' };
+    if(Object.keys(errors).length <= 0) return { state: false, notify: 'Sửa nhân viên thất bại.' };
     return { state: false, messages: errors }
   }
 

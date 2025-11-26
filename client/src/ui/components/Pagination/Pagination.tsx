@@ -5,6 +5,7 @@ import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 function Pagination({ curPage, totalPage, setPage }: { curPage: number; totalPage: number; setPage }) {
 
   const pages = [];
+  totalPage = totalPage == 0 ? 1 : totalPage;
   for(let i = 1; i <= totalPage; i++) {
     pages.push(i);
   }
